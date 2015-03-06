@@ -27,8 +27,9 @@
 				<Condition>(origin != "NA") AND (lookupcache.lookupAllowedOriginsFromCache.cachehit == false)</Condition>
 			</Step>
 			<Step>
+				<!-- if no CORS origins configured, don't do the check -->
 				<Name>checkAllowedCORSOrigins</Name>
-				<Condition>(requestVerb == "OPTIONS") OR (origin != "NA")</Condition>
+				<Condition>(corsAllowedOrigins != null AND ((requestVerb == "OPTIONS") OR (origin != "NA")))</Condition>
 			</Step>
 			<!-- CORS -->
 			<Step>
