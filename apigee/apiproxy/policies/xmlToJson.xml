@@ -1,0 +1,8 @@
+<XMLToJSON name="xmlToJson">
+	<OutputVariable>jsonResponse</OutputVariable>
+	<Options>
+	    <RecognizeBoolean>true</RecognizeBoolean>
+	    <RecognizeNumber>true</RecognizeNumber>
+	    <RecognizeNull>true</RecognizeNull>
+	</Options>
+</XMLToJSON>

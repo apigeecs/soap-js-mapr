@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Javascript async="false" continueOnError="false" enabled="true" timeLimit="200" name="mapResponse">
+	<IncludeURL>jsc://JSMapr.js</IncludeURL>
+	<IncludeURL>jsc://maps.js</IncludeURL>
+	<ResourceURL>jsc://mapResponse.js</ResourceURL>
+</Javascript>

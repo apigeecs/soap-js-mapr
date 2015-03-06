@@ -1,0 +1,9 @@
+<ExtractVariables async="false" continueOnError="false" enabled="true" name="extractErrorInfo">
+	<Source clearPayload="false">error</Source>
+	<XMLPayload stopPayloadProcessing="false">
+		<Namespaces/>
+		<Variable name="backendErrorText" type="string">
+			<XPath>//*[local-name()='Text']/text()</XPath>
+		</Variable>
+	</XMLPayload>
+</ExtractVariables>

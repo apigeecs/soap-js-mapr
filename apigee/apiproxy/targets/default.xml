@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TargetEndpoint name="default">
+    <PreFlow name="PreFlow">
+        <Request>
+            <Step>
+                <Name>removePathSuffix</Name>
+            </Step>
+        </Request>
+        <Response/>
+    </PreFlow>
+    <FaultRules>
+        <FaultRule name="faultRules">
+            <Step>
+                <Name>extractErrorInfo</Name>
+            </Step>
+            <Step>
+                <Name>createErrorResponse</Name>
+            </Step>
+            <!-- CORS -->
+            <Step>
+                <Name>addCORSAllowOriginHeader</Name>
+                <Condition>(corsResult == "originAllowed") and (requestVerb != "OPTIONS") and (origin != "NA")</Condition>
+            </Step>
+            <!-- CORS -->
+        </FaultRule>
+    </FaultRules>
+    <HTTPTargetConnection>
+        <!-- The connect and timeout properties should be configured.  Times are in milliseconds. -->
+        <Properties>
+            <Property name="connect.timeout.millis">30000</Property>
+            <Property name="io.timeout.millis">30000</Property>
+        </Properties>
+        <!--The TargetEndpoint URL will be set during deployment and pulled from config.json-->
+        <URL>http://www.holidaywebservice.com/HolidayService_v2/HolidayService2.asmx</URL>
+    </HTTPTargetConnection>
+    <PostFlow name="PostFlow">
+        <Request/>
+        <Response/>
+    </PostFlow>
+</TargetEndpoint>
