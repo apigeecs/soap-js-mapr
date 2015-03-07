@@ -4,36 +4,30 @@
 
 	var sep = "/";
 	var mapArray = [];
-	var logEnabled = false;
-	var logFunc = function(entry) {
-	};
+	var logFunc = null;
 
 	function log(entry) {
-		if (logEnabled) {
+		if (isFunction(logFunc)) {
 			logFunc(entry);
 		}
 	}
 
 	function logObj(objText, obj) {
-		if (logEnabled) {
+		if (isFunction(logFunc)) {
 			logFunc(objText + " " + JSON.stringify(obj));
 		}
 	}
 
 	function isString(v) {
-		return (v !== undefined && v !== null && v.constructor === String);
-	}
-
-	function isBoolean(v) {
-		return (v !== undefined && v !== null && typeof v === "Boolean");
+		return (v && v.constructor === String);
 	}
 
 	function isArray(v) {
-		return (v !== undefined && v !== null && v.constructor === Array);
+		return (v && v.constructor === Array);
 	}
 
 	function isObject(v) {
-		return (v !== undefined && v !== null && v.constructor !== Array && v === Object(v));
+		return (v && v.constructor !== Array && v === Object(v));
 	}
 
 	function isObjectOrArray(v) {
@@ -41,7 +35,7 @@
 	}
 
 	function isFunction(v) {
-		return Object.prototype.toString.call(v) == '[object Function]';
+		return (v && Object.prototype.toString.call(v) == '[object Function]');
 	}
 
 	JSMapr = function(newSep) {
@@ -59,12 +53,6 @@
 	JSMapr.prototype.setLocSeparator = function(newSep) {
 		if (isString(newSep)) {
 			sep = newSep;
-		}
-	};
-
-	JSMapr.prototype.setLoggingEnabled = function(newLogEnabled) {
-		if (isBoolean(newLogEnabled)) {
-			logEnabled = newLogEnabled;
 		}
 	};
 
