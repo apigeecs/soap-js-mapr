@@ -12,7 +12,15 @@ if (mapArr !== undefined) {
 
   if (enableMapLogging != null) {
 	  mapr.setLoggingFunc(function(entry) {
-		context.setVariable("MAPLOG["+logEntryNum+"]", entry);
+		var varName = "MAPLOG[";
+		if (logEntryNum < 10) {
+			varName += "00"
+		}
+		else if (logEntryNum < 100) {
+			varName += "0";
+		}
+		varName += logEntryNum + "]";
+		context.setVariable(varName, entry);
 		logEntryNum++;
 	  });
   }

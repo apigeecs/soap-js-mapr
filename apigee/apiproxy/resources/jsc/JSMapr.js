@@ -1,20 +1,25 @@
 // https://github.com/mikedunker/JSMapr
 // License: MIT
+// Version: 0.0.1
 (function () {
 
 	var sep = "/";
 	var mapArray = [];
 	var logFunc = null;
 
-	function log(entry) {
+	function log() {
 		if (isFunction(logFunc)) {
-			logFunc(entry);
-		}
-	}
-
-	function logObj(objText, obj) {
-		if (isFunction(logFunc)) {
-			logFunc(objText + " " + JSON.stringify(obj));
+			var str = "";
+			for (i = 0, len=arguments.length; i < len; i++) {
+				var arg = arguments[i];
+				if (isObjectOrArray(arg)) {
+					str += JSON.stringify(arg) + " ";
+				}
+				else {
+					str += arg.toString() + " ";
+				}
+			}
+			logFunc(str);
 		}
 	}
 
@@ -341,67 +346,67 @@
 			var mapObj = (mapArray)[i];
 			switch (mapObj.op) {
 				case "ADD":
-					log("Op: setting object at "+mapObj.loc);
+					log("Op: setting object at", mapObj.loc);
 					srcObj = opAdd(srcObj, mapObj.loc, mapObj.elemToAdd);
-					logObj("Updated:", srcObj);
+					log("Updated:", srcObj);
 					break;
 				case "DEL":
-					log("Op: deleting "+mapObj.loc);
+					log("Op: deleting", mapObj.loc);
 					srcObj = opDel(srcObj, mapObj.loc);
-					logObj("Updated:", srcObj);
+					log("Updated:", srcObj);
 					break;
 				case "COPY":
-					log("Op: copying "+mapObj.srcLoc+" to "+mapObj.destLoc);
+					log("Op: copying", mapObj.srcLoc, "to", mapObj.destLoc);
 					srcObj = opCopy(srcObj, mapObj.srcLoc, mapObj.destLoc);
-					logObj("Updated:", srcObj);
+					log("Updated:", srcObj);
 					break;
 				case "MOVE":
-					log("Op: moving "+mapObj.srcLoc+" to "+mapObj.destLoc);
+					log("Op: moving", mapObj.srcLoc, "to", mapObj.destLoc);
 					srcObj = opMove(srcObj, mapObj.srcLoc, mapObj.destLoc);
-					logObj("Updated:", srcObj);
+					log("Updated:", srcObj);
 					break;
 				case "TOSTRING":
-					log("making "+mapObj.loc+" a string");
+					log("making", mapObj.loc, "a string");
 					srcObj = opToString(srcObj, mapObj.loc);
-					logObj("Updated:", srcObj);
+					log("Updated:", srcObj);
 					break;
 				case "STRINGIFY":
-					log("Op: stringifying "+mapObj.loc);
+					log("Op: stringifying", mapObj.loc);
 					srcObj = opStringify(srcObj, mapObj.loc);
-					logObj("Updated:", srcObj);
+					log("Updated:", srcObj);
 					break;
 				case "MAKEARRAY":
-					log("Op: making "+mapObj.loc+" an array");
+					log("Op: making", mapObj.loc, "an array");
 					srcObj = opMakeArray(srcObj, mapObj.loc);
-					logObj("Updated:", srcObj);
+					log("Updated:", srcObj);
 					break;
 				case "MAP1":
-					log("Op: mapping "+mapObj.loc);
+					log("Op: mapping", mapObj.loc);
 					srcObj = opMap1(srcObj, mapObj.loc, mapObj.mapArray);
-					logObj("Updated:", srcObj);
+					log("Updated:", srcObj);
 					break;
 				case "MAPEACH":
-					log("Op: mapping each of "+mapObj.loc);
+					log("Op: mapping each of", mapObj.loc);
 					srcObj = opMapEach(srcObj, mapObj.loc, mapObj.mapArray);
-					logObj("Updated:", srcObj);
+					log("Updated:", srcObj);
 					break;
 				case "FUNC1":
-					log("Op: calling function on "+ mapObj.loc);
+					log("Op: calling function on", mapObj.loc);
 					srcObj = opFunc1(srcObj, mapObj.loc, mapObj.fn, mapObj.parms);
-					logObj("Updated:", srcObj);
+					log("Updated:", srcObj);
 					break;
 				case "FUNCEACH":
-					log("Op: calling function on each of "+ mapObj.loc);
+					log("Op: calling function on each of", mapObj.loc);
 					srcObj = opFuncEach(srcObj, mapObj.loc, mapObj.fn, mapObj.parms);
-					logObj("Updated:", srcObj);
+					log("Updated:", srcObj);
 					break;
 				case "EXEC":
 					log("Op: execing function on object");
 					srcObj = opExec(srcObj, mapObj.fn, mapObj.parms);
-					logObj("Updated:", srcObj);
+					log("Updated:", srcObj);
 					break;
 				case "LOCSEPARATOR":
-					log("Op: changing loc separator to "+mapObj.sep);
+					log("Op: changing loc separator to", mapObj.sep);
 					sep = mapObj.sep;
 					break;
 			}
