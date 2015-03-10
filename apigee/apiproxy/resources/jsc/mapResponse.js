@@ -8,7 +8,7 @@ if (mapArr !== undefined) {
   context.setVariable("mapArr", JSON.stringify(mapArr));
 
   var mapr = new JSMapr();
-  mapr.setMapArray(mapArr);
+  mapr.setMapCommands(mapArr);
 
   if (enableMapLogging != null) {
 	  mapr.setLoggingFunc(function(entry) {

@@ -37,68 +37,83 @@ function getMap(opName) {
 	  break;
 	case "getHolidaysForMonth":
 	  map = [
-			  // initialize /Date with empty array, in case there is nothing at .../Holiday (indicating no holidays returned)
-			  JSMapr.ADD("/HolidayArray", []),
-			  // next two are no-ops if .../Holiday doesn't exist, otherwise overwrites the default empty array
-			  JSMapr.MAKEARRAY("/Envelope/Body/GetHolidaysForMonthResponse/GetHolidaysForMonthResult/Holiday"),
-			  JSMapr.MOVE("/Envelope/Body/GetHolidaysForMonthResponse/GetHolidaysForMonthResult/Holiday", "/HolidayArray"),
-			  // move the array to root
-			  JSMapr.MOVE("/HolidayArray", "/"),
-			  JSMapr.MAPEACH("/",
-							 [
-								JSMapr.EXEC(holidaysDateFunc),
-								JSMapr.MOVE("/HolidayCode", "/code"),
-								JSMapr.MOVE("/Descriptor", "/description"),
-								JSMapr.DEL("/RelatedHolidayCode"),
-								JSMapr.DEL("/BankHoliday"),
-								JSMapr.DEL("/Country"),
-								JSMapr.DEL("/DateType"),
-								JSMapr.DEL("/HolidayType"),
-								JSMapr.DEL("/Date")
-							 ]
-							)
+			  JSMapr.IFTYPE("/Envelope/Body/GetHolidaysForMonthResponse/GetHolidaysForMonthResult/Holiday", "null object",
+							JSMapr.MAKEARRAY("/Envelope/Body/GetHolidaysForMonthResponse/GetHolidaysForMonthResult/Holiday")),
+			  JSMapr.IFTYPE("/Envelope/Body/GetHolidaysForMonthResponse/GetHolidaysForMonthResult/Holiday", "array",
+							// yes, it is an array
+							[
+								JSMapr.MOVE("/Envelope/Body/GetHolidaysForMonthResponse/GetHolidaysForMonthResult/Holiday", "/"),
+								JSMapr.MAPEACH("/",
+												[
+													JSMapr.EXEC(holidaysDateFunc),
+													JSMapr.MOVE("/HolidayCode", "/code"),
+													JSMapr.MOVE("/Descriptor", "/description"),
+													JSMapr.DEL("/RelatedHolidayCode"),
+													JSMapr.DEL("/BankHoliday"),
+													JSMapr.DEL("/Country"),
+													JSMapr.DEL("/DateType"),
+													JSMapr.DEL("/HolidayType"),
+													JSMapr.DEL("/Date")
+												]
+											  )
+							],
+							// no it isn't, if GetHolidaysForMonth exists, make this an empty array
+							JSMapr.IFEXISTS("/Envelope/Body/GetHolidaysForMonthResponse/GetHolidaysForMonthResult", JSMapr.ADD("/", []))
+						   )
 	  ];
 	  break;
 	case "getHolidaysForYear":
 	  map = [
-			  JSMapr.ADD("/HolidayArray", []),
-			  JSMapr.MAKEARRAY("/Envelope/Body/GetHolidaysForYearResponse/GetHolidaysForYearResult/Holiday"),
-			  JSMapr.MOVE("/Envelope/Body/GetHolidaysForYearResponse/GetHolidaysForYearResult/Holiday", "/HolidayArray"),
-			  JSMapr.MOVE("/HolidayArray", "/"),
-			  JSMapr.MAPEACH("/",
-							 [
-								JSMapr.EXEC(holidaysDateFunc),
-								JSMapr.MOVE("/HolidayCode", "/code"),
-								JSMapr.MOVE("/Descriptor", "/description"),
-								JSMapr.DEL("/RelatedHolidayCode"),
-								JSMapr.DEL("/BankHoliday"),
-								JSMapr.DEL("/Country"),
-								JSMapr.DEL("/DateType"),
-								JSMapr.DEL("/HolidayType"),
-								JSMapr.DEL("/Date")
-							 ]
-							)
+			  JSMapr.IFTYPE("/Envelope/Body/GetHolidaysForYearResponse/GetHolidaysForYearResult/Holiday", "null object",
+							JSMapr.MAKEARRAY("/Envelope/Body/GetHolidaysForYearResponse/GetHolidaysForYearResult/Holiday")),
+			  JSMapr.IFTYPE("/Envelope/Body/GetHolidaysForYearResponse/GetHolidaysForYearResult/Holiday", "array",
+							// yes, it is an array
+							[
+								JSMapr.MOVE("/Envelope/Body/GetHolidaysForYearResponse/GetHolidaysForYearResult/Holiday", "/"),
+								JSMapr.MAPEACH("/",
+												[
+													JSMapr.EXEC(holidaysDateFunc),
+													JSMapr.MOVE("/HolidayCode", "/code"),
+													JSMapr.MOVE("/Descriptor", "/description"),
+													JSMapr.DEL("/RelatedHolidayCode"),
+													JSMapr.DEL("/BankHoliday"),
+													JSMapr.DEL("/Country"),
+													JSMapr.DEL("/DateType"),
+													JSMapr.DEL("/HolidayType"),
+													JSMapr.DEL("/Date")
+												]
+											  )
+							],
+							// no it isn't
+							JSMapr.IFEXISTS("/Envelope/Body/GetHolidaysForYearResponse/GetHolidaysForYearResult", JSMapr.ADD("/", []))
+						   )
 	  ];
 	  break;
 	case "getHolidaysForDateRange":
 	  map = [
-			  JSMapr.ADD("/HolidayArray", []),
-			  JSMapr.MAKEARRAY("/Envelope/Body/GetHolidaysForDateRangeResponse/GetHolidaysForDateRangeResult/Holiday"),
-			  JSMapr.MOVE("/Envelope/Body/GetHolidaysForDateRangeResponse/GetHolidaysForDateRangeResult/Holiday", "/HolidayArray"),
-			  JSMapr.MOVE("/HolidayArray", "/"),
-			  JSMapr.MAPEACH("/",
-							 [
-								JSMapr.EXEC(holidaysDateFunc),
-								JSMapr.MOVE("/HolidayCode", "/code"),
-								JSMapr.MOVE("/Descriptor", "/description"),
-								JSMapr.DEL("/RelatedHolidayCode"),
-								JSMapr.DEL("/BankHoliday"),
-								JSMapr.DEL("/Country"),
-								JSMapr.DEL("/DateType"),
-								JSMapr.DEL("/HolidayType"),
-								JSMapr.DEL("/Date")
-							 ]
-							)
+			  JSMapr.IFTYPE("/Envelope/Body/GetHolidaysForDateRangeResponse/GetHolidaysForDateRangeResult/Holiday", "null object",
+							JSMapr.MAKEARRAY("/Envelope/Body/GetHolidaysForDateRangeResponse/GetHolidaysForDateRangeResult/Holiday")),
+			  JSMapr.IFTYPE("/Envelope/Body/GetHolidaysForDateRangeResponse/GetHolidaysForDateRangeResult/Holiday", "array",
+							// yes, it is an array
+							[
+								JSMapr.MOVE("/Envelope/Body/GetHolidaysForDateRangeResponse/GetHolidaysForDateRangeResult/Holiday", "/"),
+								JSMapr.MAPEACH("/",
+												[
+													JSMapr.EXEC(holidaysDateFunc),
+													JSMapr.MOVE("/HolidayCode", "/code"),
+													JSMapr.MOVE("/Descriptor", "/description"),
+													JSMapr.DEL("/RelatedHolidayCode"),
+													JSMapr.DEL("/BankHoliday"),
+													JSMapr.DEL("/Country"),
+													JSMapr.DEL("/DateType"),
+													JSMapr.DEL("/HolidayType"),
+													JSMapr.DEL("/Date")
+												]
+											  )
+							],
+							// no it isn't
+							JSMapr.IFEXISTS("/Envelope/Body/GetHolidaysForDateRangeResponse/GetHolidaysForDateRangeResult", JSMapr.ADD("/", []))
+						   )
 	  ];
 	  break;
 	case "getHolidayDate":
